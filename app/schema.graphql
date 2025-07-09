@@ -1,0 +1,28 @@
+type Query {
+    me: User
+}
+
+type Mutation {
+    register(email: String!, password: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
+}
+
+type User {
+    id: ID!
+    email: String!
+}
+
+type AuthPayload {
+    token: String!
+    user: User!
+}
+
+extend type Mutation {
+    createProject(name: String!): Project!
+}
+
+type Project {
+    id: ID!
+    name: String!
+    owner: User!
+}
