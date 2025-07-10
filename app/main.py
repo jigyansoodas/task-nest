@@ -22,4 +22,7 @@ graphql_app = GraphQL(
     context_value=get_context_value
 )
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to TaskNest API"}
 app.mount("/graphql", graphql_app)

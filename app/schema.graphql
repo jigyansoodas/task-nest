@@ -1,5 +1,8 @@
 type Query {
     me: User
+    getUserDetails(user_id: String!): User
+    getProjectDetails(project_id: String!): Project
+    listProjectMembers(project_id: ID!): [ProjectMember]
 }
 
 type Mutation {
@@ -19,10 +22,18 @@ type AuthPayload {
 
 extend type Mutation {
     createProject(name: String!): Project!
+    inviteUserToProject(project_id: ID!, user_id: ID!, role: String!): Boolean
 }
 
 type Project {
     id: ID!
     name: String!
-    owner: User!
+    owner_id: ID!
+}
+
+type ProjectMember {
+    id: ID!
+    user_id: ID!
+    project_id: ID!
+    role: String!
 }
