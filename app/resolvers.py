@@ -73,6 +73,7 @@ def resolve_get_project_details(_, info, user_id):
 
 @query.field("listProjectMembers")
 def resolve_get_project_details(_, info, project_id):
+    project_member_details = []
     current_user_id = get_current_user(info.context["request"])
     if not current_user_id:
         raise Exception("Not Authenticated")
@@ -80,6 +81,15 @@ def resolve_get_project_details(_, info, project_id):
     project_members = db.query(ProjectMember).filter(ProjectMember.project_id == project_id)
     if not project_members:
         raise Exception("Project not found")
+    for member in project_members:
+        user = db.query(User).get(member.user_id)
+        project = db.query(Project).get(member.project_id)
+        project_member_details.append({
+            "id": member.user_id,
+            "user": user,
+            "role": member.role,
+            "project": project
+        })
     return project_members
 
 @mutation.field("inviteUserToProject")
